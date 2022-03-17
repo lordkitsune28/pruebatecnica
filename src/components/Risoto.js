@@ -5,7 +5,18 @@ export const Risoto = () => {
     const [nombre, setNombre] = useState([]);
     const [envio, setEnvio] = useState([]);
     const [ingredientes, setIgredientes] = useState([]);
-    const [select, setSelect] = useState([]);
+    const [select, setSelect] = useState();
+    const [pagar, setPagar] = useState();
+    const [interruptor, setInterruptor] = useState();
+    let subtotal = 0;
+
+    if (interruptor === true) {
+        subtotal = subtotal + pagar
+    } else {
+        subtotal = subtotal - pagar
+    }
+
+    let total = parseInt(subtotal) + parseInt(envio)
 
     const getData = async () => {
         let res = await fetch(url);
@@ -24,13 +35,23 @@ export const Risoto = () => {
     }, [])
 
     const comprobar = () => {
-        if (condition) {
-            
-        } else {
-            
-        }
+        const activar = true
+        setSelect(activar)
     }
 
+    const nocomprobar = () => {
+        const activar = false
+        setSelect(activar)
+    }
+
+    const seleccion = (e) =>{
+        let act = e.target.checked
+        let valor = e.target.value
+        
+        setInterruptor(act)
+        setPagar(valor)
+    }
+console.log(subtotal)
     return (
         <div className='w-100 mt-5'>
             <div className='w-75 mx-auto'>
@@ -39,7 +60,7 @@ export const Risoto = () => {
                         <p>INGREDIENTES</p>
                         <h1>{nombre}</h1>
                         <div>
-                            <p className="d-inline-block me-2">Seleccionar todo </p>|<p className="d-inline-block mx-2">Deseleccionar todo</p>
+                            <p onClick={comprobar} className="d-inline-block me-2">Seleccionar todo </p>|<p onClick={nocomprobar} className="d-inline-block mx-2">Deseleccionar todo</p>
                         </div>
                     </div>
 
@@ -49,7 +70,7 @@ export const Risoto = () => {
                                 <div key={index} class="form-check my-5 p-5 border border-1 animate__animated animate__fadeIn">
                                     <div className='w-100'>
                                         <div className='d-inline-block ms-1 mt-4'>
-                                            <input className="form-check-input me-0 pe-0" type="checkbox" value={charap.price} id="flexCheckDefault" />
+                                            <input className="form-check-input me-0 pe-0" onClick={(e) => seleccion(e)} checked={select} type="checkbox" value={charap.price} id="flexCheckDefault" />
                                         </div>
                                         <div className='d-inline-block text-start'>
                                             <label className="form-check-label" for="flexCheckDefault">
@@ -73,11 +94,11 @@ export const Risoto = () => {
 
                     <div>
                         <p>Items: </p>
-                        <p>SubTotal: </p>
+                        <p>SubTotal: {subtotal}</p>
                         <p>Gastos de Envío: {envio}</p>
-                        <p><strong>Total</strong></p>
+                        <p><strong>Total: {total}</strong></p>
 
-                        <button type="submit" className='btn btn-success'>Comprar Ingredientes: </button>
+                        <button type="submit" className='btn btn-success'>Comprar Ingredientes: {total}</button>
                     </div>
                 </div>
             </div>

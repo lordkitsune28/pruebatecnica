@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux"
 import thunk from "redux-thunk";
 import { loginReducer } from "../reducers/loginReducer";
-// import { productReducer } from "../reducers/productReducer";
+import { productReducer } from "../reducers/productReducer";
 import { registerReducer } from "../reducers/registerReducer";
 
 const composeEnhancers = (typeof window !== 'undefined' &&
@@ -10,7 +10,7 @@ const composeEnhancers = (typeof window !== 'undefined' &&
 const reducers = combineReducers({
     login: loginReducer,
     register: registerReducer,
-    // producto: productReducer
+    producto: productReducer
 })
 
 export const store = createStore(
