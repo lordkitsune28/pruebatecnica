@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { url } from '../helpers/link';
 
 export const Risoto = () => {
+    
     const [nombre, setNombre] = useState([]);
     const [envio, setEnvio] = useState([]);
     const [ingredientes, setIgredientes] = useState([]);
     const [select, setSelect] = useState();
-    const [pagar, setPagar] = useState();
-    const [interruptor, setInterruptor] = useState();
-    let subtotal = 0;
+    const [pagar, setPagar] = useState([0]);
+    const [prueba, setPrueba] = useState([]);
 
-    if (interruptor === true) {
-        subtotal = subtotal + pagar
-    } else {
-        subtotal = subtotal - pagar
-    }
-
-    let total = parseInt(subtotal) + parseInt(envio)
+    let cantidad = 0
+    let precioInicial = 0
+    
+    
 
     const getData = async () => {
         let res = await fetch(url);
@@ -34,6 +31,15 @@ export const Risoto = () => {
         getData();
     }, [])
 
+    const sumar = (e) => {
+        
+        precioInicial = Number(e.target.value)
+
+        cantidad = Number(cantidad + precioInicial)
+        
+        setPagar(Number(pagar) + cantidad)
+    }
+
     const comprobar = () => {
         const activar = true
         setSelect(activar)
@@ -44,14 +50,17 @@ export const Risoto = () => {
         setSelect(activar)
     }
 
-    const seleccion = (e) =>{
-        let act = e.target.checked
-        let valor = e.target.value
-        
-        setInterruptor(act)
-        setPagar(valor)
-    }
-console.log(subtotal)
+//     const seleccion = (e) => {
+//         let act = e.target.checked
+//         let valor = parseInt(e.target.value)
+//         setPrueba(act)
+// setPagar(valor)
+// console.log(subtotal)
+//     }
+    
+//         console.log(pagar)
+    
+    console.log(pagar)
     return (
         <div className='w-100 mt-5'>
             <div className='w-75 mx-auto'>
@@ -70,7 +79,7 @@ console.log(subtotal)
                                 <div key={index} class="form-check my-5 p-5 border border-1 animate__animated animate__fadeIn">
                                     <div className='w-100'>
                                         <div className='d-inline-block ms-1 mt-4'>
-                                            <input className="form-check-input me-0 pe-0" onClick={(e) => seleccion(e)} checked={select} type="checkbox" value={charap.price} id="flexCheckDefault" />
+                                            <input className="form-check-input me-0 pe-0" /* onClick={(e) => seleccion(e)}*/ checked={select} type="checkbox" value={charap.price} id="flexCheckDefault" />
                                         </div>
                                         <div className='d-inline-block text-start'>
                                             <label className="form-check-label" for="flexCheckDefault">
@@ -83,7 +92,7 @@ console.log(subtotal)
                                             <h2 className='text-center'>{charap.price}€</h2>
                                         </div>
                                         <div className="btn-group-vertical d-inline-block float-end">
-                                            <button type="button" class="btn btn-primary p-2 d-block me-5 mb-1"> + </button>
+                                            <button type="button" value={charap.price} onClick={(e) => sumar(e)} class="btn btn-primary p-2 d-block me-5 mb-1"> + </button>
                                             <button type="button" class="btn btn-secondary p-2 d-block me-5 mt-1"> - </button>
                                         </div>
                                     </div>
@@ -94,11 +103,11 @@ console.log(subtotal)
 
                     <div>
                         <p>Items: </p>
-                        <p>SubTotal: {subtotal}</p>
+                        <p>SubTotal: {pagar}</p>
                         <p>Gastos de Envío: {envio}</p>
-                        <p><strong>Total: {total}</strong></p>
+                        <p><strong>Total: </strong></p>
 
-                        <button type="submit" className='btn btn-success'>Comprar Ingredientes: {total}</button>
+                        <button type="submit" className='btn btn-success'>Comprar Ingredientes: </button>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,6 @@ export const types = {
     register: 'register'
 }
 
-export const typesProduct = {
+export const typesProduct= {
     list: 'list'
 }

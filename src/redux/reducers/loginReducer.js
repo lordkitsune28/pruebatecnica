@@ -3,8 +3,8 @@ import { types } from "../types/types";
 export const loginReducer = (state = {}, action) => {
     switch (action.type) {
         case types.login:
-
-            return {
+            
+            return{
                 id: action.payload.id,
                 name: action.payload.displayname
             }
@@ -13,6 +13,7 @@ export const loginReducer = (state = {}, action) => {
 
             return {}
 
+    
         default:
             return state
     }

@@ -1,18 +1,18 @@
-import { types } from "../types/types"
+import {types} from "../types/types"
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth"
 import { facebook, google } from "../../firebase/firebaseConfig"
 
 export const loginGoogle = () => {
 
-    return (dispatch) => {
+    return(dispatch) => {
         const auth = getAuth()
         signInWithPopup(auth, google)
-            .then(({ user }) => {
-                dispatch(actionLogin(user.uid, user.displayName))
-            })
-            .catch(e => {
-                console.log(e)
-            })
+        .then(({user}) => {
+            dispatch(actionLogin(user.uid,user.displayName))
+        })
+        .catch(e =>{
+            console.log(e)
+        })
     }
 }
 
@@ -68,6 +68,7 @@ export const logout = () => {
             })
     }
 }
+
 
 export const logoutSincrono = () => {
     return {
