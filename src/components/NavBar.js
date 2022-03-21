@@ -17,8 +17,9 @@ export const NavBar = (history) => {
                 <Navbar.Brand href="#home">Nuestro Mercado Favorito</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse className="justify-content-end" id="responsive-navbar-nav">
-                    <Link to="/recibo">Recibo</Link>
-                    <Navbar.Text onClick={handleLogout} href="#">Cerrar Sesión</Navbar.Text>
+                    <Link className='link-light fw-bolder text-decoration-none mx-5' to="/">Inicio</Link>
+                    <Link className='link-light fw-bolder text-decoration-none mx-5' to="/recibo">Recibo</Link>
+                    <button type="button" class="btn btn-outline-light" onClick={handleLogout}>Cerrar Sesión</button>
 
                 </Navbar.Collapse>
             </Container>

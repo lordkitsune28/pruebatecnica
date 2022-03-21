@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { url } from '../helpers/link';
 import { registerCompra } from '../redux/actions/actionProduct';
 
@@ -116,7 +117,25 @@ export const Risoto = () => {
                         <p>Gastos de Envío: {envio}</p>
                         <p><strong>Total: {((total).toFixed(2))}</strong></p>
 
-                        <button type="submit" className='btn btn-success'>Comprar Ingredientes: {(total).toFixed(2)}</button>
+                        <button type="buttom" className='btn btn-success' data-bs-toggle="modal" data-bs-target="#exampleModal">Comprar Ingredientes: {(total).toFixed(2)}</button>
+                        
+                        <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        
+                                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h1>Los Productos fueron Agregados Exitosamente a su Factura</h1>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                        <Link to="/recibo"><button type="button" className="btn btn-primary" data-bs-dismiss="modal">Ver Factura</button></Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
