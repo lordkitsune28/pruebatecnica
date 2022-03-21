@@ -1,4 +1,4 @@
-import { typesProduct } from "../types/types"
+import { types, typesProduct } from "../types/types"
 
 
 const initialState = {
@@ -7,10 +7,18 @@ const initialState = {
 
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
-      case typesProduct.list:
+      case typesProduct.register:
          return{
-             product: [...action.payload]
+             product: [action.payload]
          }
+      case typesProduct.list:
+          return {
+              product: [...action.payload]
+          }
+      case typesProduct.delete:
+          return {
+              products: state.products.filter(est => est.product !== action.payload)
+          }
   
       default:
           return state

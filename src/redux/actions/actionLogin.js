@@ -4,15 +4,15 @@ import { facebook, google } from "../../firebase/firebaseConfig"
 
 export const loginGoogle = () => {
 
-    return(dispatch) => {
+    return (dispatch) => {
         const auth = getAuth()
         signInWithPopup(auth, google)
-        .then(({user}) => {
-            dispatch(actionLogin(user.uid,user.displayName))
-        })
-        .catch(e =>{
-            console.log(e)
-        })
+            .then(({ user }) => {
+                dispatch(actionLogin(user.uid, user.displayName))
+            })
+            .catch(e => {
+                console.log(e)
+            })
     }
 }
 
@@ -35,11 +35,10 @@ export const loginEmailPassword = (email, password) => {
         const auth = getAuth();
         signInWithEmailAndPassword(auth, email, password)
             .then(({ user }) => {
-                dispatch(actionLogin(user.uid, user.displayName)
-                )
+                dispatch(actionLogin(user.uid, user.displayName))
                 alert('inicio sesion de manera satisfactoria')
             })
-            .catch(e => {
+            .catch((e) => {
                 console.log('usuario incorrecto')
             })
     }
@@ -50,7 +49,7 @@ export const actionLogin = (id, displayname) => {
         type: types.login,
         payload: {
             id,
-            displayname
+            displayname,
         }
     }
 }

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { loginEmailPassword, loginFacebook, loginGoogle } from '../redux/actions/actionLogin';
 
 
-const Login = (history) => {
+const Login = () => {
 
     const dispatch = useDispatch()
 
@@ -28,7 +28,6 @@ const Login = (history) => {
 
     const handleFacebook = () => {
         dispatch(loginFacebook())
-        history.replace('/');
     }
 
     return (

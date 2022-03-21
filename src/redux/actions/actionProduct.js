@@ -1,7 +1,50 @@
 import { typesProduct } from "../types/types"
 import { db } from "../../firebase/firebaseConfig";
-import { collection, getDocs } from "@firebase/firestore";
+import { addDoc, collection, deleteDoc, getDocs, query, where, doc } from "@firebase/firestore";
 
+export const deleteProduct = (product) => {
+    return async (dispatch) => {
+
+        const estCollection = collection(db, "productos");
+        const q = query(estCollection, where("product", "==", product))
+
+        const datos = await getDocs(q);
+        datos.forEach((docu) => {
+            deleteDoc(doc(db, "productos", docu.id));
+        })
+        dispatch(deleteSincrono(product));
+    }
+}
+
+export const deleteSincrono = (product) => {
+    return {
+        type: typesProduct.delete,
+        payload: product
+    }
+}
+
+export const registerCompra = (product, items, price) => {
+    return (dispatch) => {
+        const newProduct = {
+            product, items, price
+        }
+        addDoc(collection(db, "productos"), newProduct)
+        .then(resp => {
+            dispatch(registroProductsincrono(newProduct))
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+}
+
+export const registroProductsincrono = (producto) => {
+    return {
+        type: typesProduct.agregar,
+        payload: producto
+    }
+
+}
 
 export const listProducts = () => {
     return async (dispatch) => {

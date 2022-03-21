@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import { url } from '../helpers/link';
+import { registerCompra } from '../redux/actions/actionProduct';
 
 export const Risoto = () => {
-    
+
     const [nombre, setNombre] = useState([]);
-    const [envio, setEnvio] = useState([]);
+    const [envio, setEnvio] = useState();
     const [ingredientes, setIgredientes] = useState([]);
     const [select, setSelect] = useState();
-    const [pagar, setPagar] = useState([0]);
-    const [prueba, setPrueba] = useState([]);
+    const [pagar, setPagar] = useState(0);
+    const [interruptor, setInterruptor] = useState(true);
+    const [items, setItems] = useState(0)
 
+    const dispatch = useDispatch();
     let cantidad = 0
     let precioInicial = 0
-    
-    
+    let item = 0
 
     const getData = async () => {
         let res = await fetch(url);
@@ -24,7 +27,6 @@ export const Risoto = () => {
         setNombre(nomb)
         setEnvio(env)
         setIgredientes(ingr)
-
     }
 
     useEffect(() => {
@@ -32,12 +34,25 @@ export const Risoto = () => {
     }, [])
 
     const sumar = (e) => {
-        
         precioInicial = Number(e.target.value)
-
+        const producto = e.target.id
+        item = 1
         cantidad = Number(cantidad + precioInicial)
-        
+
         setPagar(Number(pagar) + cantidad)
+        setInterruptor(false)
+        setItems(items + item)
+        enviar(precioInicial, producto, item)
+    }
+
+    const restar = (e) => {
+        precioInicial = Number(e.target.value)
+        const producto = e.target.id
+        item = 1
+
+        setPagar(Number(pagar) - precioInicial)
+        setItems(items - item)
+        enviar(precioInicial, producto, item)
     }
 
     const comprobar = () => {
@@ -50,17 +65,11 @@ export const Risoto = () => {
         setSelect(activar)
     }
 
-//     const seleccion = (e) => {
-//         let act = e.target.checked
-//         let valor = parseInt(e.target.value)
-//         setPrueba(act)
-// setPagar(valor)
-// console.log(subtotal)
-//     }
-    
-//         console.log(pagar)
-    
-    console.log(pagar)
+    const enviar = (precioInicial, producto, item) => {
+        dispatch(registerCompra(precioInicial, producto, item))
+    }
+
+    let total = pagar + envio
     return (
         <div className='w-100 mt-5'>
             <div className='w-75 mx-auto'>
@@ -79,7 +88,7 @@ export const Risoto = () => {
                                 <div key={index} class="form-check my-5 p-5 border border-1 animate__animated animate__fadeIn">
                                     <div className='w-100'>
                                         <div className='d-inline-block ms-1 mt-4'>
-                                            <input className="form-check-input me-0 pe-0" /* onClick={(e) => seleccion(e)}*/ checked={select} type="checkbox" value={charap.price} id="flexCheckDefault" />
+                                            <input className="form-check-input me-0 pe-0" checked={select} type="checkbox" value={charap.price} id="flexCheckDefault" />
                                         </div>
                                         <div className='d-inline-block text-start'>
                                             <label className="form-check-label" for="flexCheckDefault">
@@ -92,8 +101,8 @@ export const Risoto = () => {
                                             <h2 className='text-center'>{charap.price}€</h2>
                                         </div>
                                         <div className="btn-group-vertical d-inline-block float-end">
-                                            <button type="button" value={charap.price} onClick={(e) => sumar(e)} class="btn btn-primary p-2 d-block me-5 mb-1"> + </button>
-                                            <button type="button" class="btn btn-secondary p-2 d-block me-5 mt-1"> - </button>
+                                            <button type="button" value={charap.price} onClick={(e) => sumar(e)} id={charap.product} class="btn btn-primary p-2 d-block me-5 mb-1"> + </button>
+                                            <button type="button" value={charap.price} onClick={(e) => restar(e)} disabled={interruptor} id={charap.product} class="btn btn-secondary p-2 d-block me-5 mt-1"> - </button>
                                         </div>
                                     </div>
                                 </div>
@@ -102,12 +111,12 @@ export const Risoto = () => {
                     </div>
 
                     <div>
-                        <p>Items: </p>
+                        <p>Items: {items}</p>
                         <p>SubTotal: {pagar}</p>
                         <p>Gastos de Envío: {envio}</p>
-                        <p><strong>Total: </strong></p>
+                        <p><strong>Total: {((total).toFixed(2))}</strong></p>
 
-                        <button type="submit" className='btn btn-success'>Comprar Ingredientes: </button>
+                        <button type="submit" className='btn btn-success'>Comprar Ingredientes: {(total).toFixed(2)}</button>
                     </div>
                 </div>
             </div>
