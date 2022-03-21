@@ -1,6 +1,6 @@
 import { typesProduct } from "../types/types"
 import { db } from "../../firebase/firebaseConfig";
-import { addDoc, collection, deleteDoc, getDocs, query, where, doc } from "@firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where} from "@firebase/firestore";
 
 export const deleteProduct = (product) => {
     return async (dispatch) => {
@@ -66,3 +66,26 @@ export const list = (productos) => {
         payload: productos
     }
 }
+
+export const editarProductoAsyn = (product, producto) => {
+    return async (dispatch) => {
+        const traerCollection = collection(db, "producto");
+        const q = query(traerCollection, where("product", "==", product));
+        const datosQ = await getDocs(q);
+        let id;
+        datosQ.forEach(async (docu) => {
+            id = docu.id;
+        });
+        console.log(id);
+
+        const docRef = doc(db, "producto", id);
+        await updateDoc(docRef, producto).then(() => list());
+    };
+};
+
+export const editarCarritoSyn = (product) => {
+    return {
+        type: typesProduct.editar,
+        payload: product,
+    };
+};

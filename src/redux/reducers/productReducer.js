@@ -1,4 +1,4 @@
-import { types, typesProduct } from "../types/types"
+import { typesProduct } from "../types/types"
 
 
 const initialState = {
@@ -15,6 +15,10 @@ export const productReducer = (state = initialState, action) => {
           return {
               product: [...action.payload]
           }
+      case typesProduct.editar:
+         return {
+            ...state,
+         };
       case typesProduct.delete:
           return {
               products: state.products.filter(est => est.product !== action.payload)

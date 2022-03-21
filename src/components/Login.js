@@ -1,26 +1,22 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-// import { LoginSincrono } from '../redux/actions/actionsLogin';
 import { loginEmailPassword, loginFacebook, loginGoogle } from '../redux/actions/actionLogin';
+import { useForm } from '../hook/useForm';
 
 
 const Login = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
-    const formik = useFormik({
-        initialValues: {
-            email: "",
-            password: ""
-        },
-        onSubmit: (data) => {
-            dispatch(loginEmailPassword(data))
-        },
+    const [values, handleInputChange, reset] = useForm({
+        email: "",
+        password: ""
 
     })
+
+    const { email, password } = values;
 
     const handleGoogle = () => {
         dispatch(loginGoogle())
@@ -30,9 +26,15 @@ const Login = () => {
         dispatch(loginFacebook())
     }
 
+    const handleLogin = (e) => {
+        e.preventDefault()
+        dispatch(loginEmailPassword(email, password))
+        reset()
+    }
+
     return (
         <div className="my-5 w-100">
-            <Form className="my-5 form py-2 w-50 mx-auto" onSubmit={formik.handleSubmit}>
+            <Form className="my-5 form py-2 w-50 mx-auto" onSubmit={handleLogin}>
                 <div className="auth__social-networks">
                     <div className="google-btn" onClick={handleGoogle}>
                         <div className="google-icon-wrapper py-2 google">
@@ -55,7 +57,8 @@ const Login = () => {
                                 type="email"
                                 placeholder="Enter email"
                                 name="email"
-                                onChange={formik.handleChange} />
+                                value={email}
+                                onChange={handleInputChange} />
                         </Form.Group>
 
                         <Form.Group className="mb-3 mx-auto w-75" controlId="formBasicPassword">
@@ -64,7 +67,8 @@ const Login = () => {
                                 type="password"
                                 placeholder="Password"
                                 name="password"
-                                onChange={formik.handleChange} />
+                                value={password}
+                                onChange={handleInputChange} />
                         </Form.Group>
                         <Form.Group className="mb-3 mx-auto w-75">
                             <Button variant="success" className="w-100" type="submit">
