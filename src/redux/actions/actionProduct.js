@@ -67,25 +67,26 @@ export const list = (productos) => {
     }
 }
 
-export const editarProductoAsyn = (product, producto) => {
+export const editAsyn = (product, producto) => {
     return async (dispatch) => {
-        const traerCollection = collection(db, "producto");
-        const q = query(traerCollection, where("product", "==", product));
-        const datosQ = await getDocs(q);
-        let id;
+        const traerCollection = collection(db, "productos")
+        const q = query(traerCollection, where("producto", "==", producto))
+        const datosQ = await getDocs(q)
+        let id
         datosQ.forEach(async (docu) => {
-            id = docu.id;
-        });
-        console.log(id);
+            id = docu.id
+        })
+        console.log(id)
 
-        const docRef = doc(db, "producto", id);
-        await updateDoc(docRef, producto).then(() => list());
-    };
-};
+        const docRef = doc(db, "productos", id)
+        await updateDoc(docRef, producto)
+            .then(() => list())
+    }
+}
 
-export const editarCarritoSyn = (product) => {
+export const editSyn = (product, producto) => {
     return {
-        type: typesProduct.editar,
-        payload: product,
-    };
-};
+        type: typesProduct.edit,
+        payload: producto
+    }
+}

@@ -15,7 +15,7 @@ export const productReducer = (state = initialState, action) => {
           return {
               product: [...action.payload]
           }
-      case typesProduct.editar:
+      case typesProduct.edit:
          return {
             ...state,
          };

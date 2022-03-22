@@ -7,6 +7,6 @@ export const types = {
 export const typesProduct= {
     list: 'list',
     agregar: "agregar",
-    editar: "editar",
+    edit: 'edit',
     delete: 'delete'
 }
