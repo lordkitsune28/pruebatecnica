@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { url } from '../helpers/link';
 import { registerCompra } from '../redux/actions/actionProduct';
-import { listProducts } from '../redux/actions/actionProduct';
 
 export const Risoto = () => {
-    const { product } = useSelector(store => store.producto);
     const [nombre, setNombre] = useState([]);
     const [envio, setEnvio] = useState();
     const [ingredientes, setIgredientes] = useState([]);
@@ -14,8 +12,6 @@ export const Risoto = () => {
     const [pagar, setPagar] = useState(0);
     const [interruptor, setInterruptor] = useState(true);
     const [items, setItems] = useState(0)
-
-    console.log(product);
     
     const dispatch = useDispatch();
     let cantidad = 0
@@ -40,7 +36,6 @@ export const Risoto = () => {
     const sumar = (e) => {
         precioInicial = Number(e.target.value)
         const productos = e.target.id
-        const evaluar = product.filter((val) => val.product === productos)
 
         item = 1
         cantidad = Number(cantidad + precioInicial)
@@ -49,7 +44,6 @@ export const Risoto = () => {
         setInterruptor(false)
         setItems(items + item)
         enviar(precioInicial, productos, item)
-        alert(evaluar)
     }
 
     const restar = (e) => {
@@ -72,8 +66,9 @@ export const Risoto = () => {
         setSelect(activar)
     }
 
-    const enviar = (precioInicial, producto, item) => {
-        dispatch(registerCompra(precioInicial, producto, item))
+    const enviar = (precioInicial, productos, item) => {
+        const code = parseInt(Math.random() * (50 - 1) + 1)
+        dispatch(registerCompra(precioInicial, productos, item, code))
     }
 
     let total = pagar + envio

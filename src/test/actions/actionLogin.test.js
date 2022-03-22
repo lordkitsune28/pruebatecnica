@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom"
-import { loginSincrono } from "../../redux/actions/actionLogin"
-import { types } from "../../redux/types/types"
+import { loginSincrono } from "../../actions/actionLogin"
+import { types } from "../../types/types"
 
 describe("Validar acciones de login", () => {
     test("Validar login sincronico", () => {
